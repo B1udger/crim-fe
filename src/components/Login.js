@@ -17,7 +17,14 @@ function Login() {
       const user = await apiService.loginUser(creds.username, creds.password);
       if (user) {
         localStorage.setItem('userId', user.id);
-        navigate('/chat');
+        // Save the admin flag (assume role is stored as a string "ADMIN" or "USER")
+        localStorage.setItem('isAdmin', user.role === 'ADMIN' ? "true" : "false");
+        // Redirect based on role
+        if (user.role === 'ADMIN') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         setError("Invalid credentials");
       }

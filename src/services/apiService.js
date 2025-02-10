@@ -3,13 +3,14 @@ import axios from 'axios';
 const API_BASE = process.env.REACT_APP_API_BASE || '';
 
 const apiService = {
-  // User endpoints
+  // Auth endpoints
   registerUser: (userData) => {
     return axios.post(`${API_BASE}/api/auth/register`, userData).then(res => res.data);
   },
   loginUser: (username, password) => {
     return axios.post(`${API_BASE}/api/auth/login`, null, { params: { username, password } }).then(res => res.data);
   },
+  // User endpoints
   getDashboard: (userId) => {
     return axios.get(`${API_BASE}/api/users/${userId}/dashboard`).then(res => res.data);
   },
