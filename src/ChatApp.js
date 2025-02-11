@@ -1,6 +1,8 @@
+// src/ChatApp.js
 import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ChatWindow from './components/ChatWindow';
+import DashboardPanel from './components/DashboardPanel';
 import apiService from './services/apiService';
 
 function ChatApp() {
@@ -8,7 +10,7 @@ function ChatApp() {
   const [dashboard, setDashboard] = useState({ channels: [], friends: [] });
 
   useEffect(() => {
-    const userId = localStorage.getItem('userId'); // saved during login
+    const userId = localStorage.getItem('userId'); // Assume userId is saved during login
     if (userId) {
       apiService.getDashboard(userId)
         .then(data => setDashboard(data))
@@ -19,7 +21,10 @@ function ChatApp() {
   return (
     <div className="app-container">
       <Sidebar dashboard={dashboard} onSelectChat={setActiveChat} />
-      <ChatWindow activeChat={activeChat} />
+      <div className="chat-content">
+        <DashboardPanel />
+        <ChatWindow activeChat={activeChat} />
+      </div>
     </div>
   );
 }
