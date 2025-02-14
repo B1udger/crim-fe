@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import apiService from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
+import apiService from '../services/apiService';
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -16,7 +16,7 @@ function ProfilePage() {
   }, [userId]);
 
   const handleBack = () => {
-    navigate('/dashboard');
+    navigate('/chat');
   };
 
   return (
@@ -32,7 +32,7 @@ function ProfilePage() {
       ) : (
         <p>Loading...</p>
       )}
-      <button onClick={handleBack}>Back to Dashboard</button>
+      <button onClick={handleBack}>Back to Chat</button>
     </div>
   );
 }

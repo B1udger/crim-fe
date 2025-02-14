@@ -1,109 +1,92 @@
-/* Welcome container with a solid black background */
+/* src/components/WelcomePage.css */
+
+/* Full screen black background */
 .welcome-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #000;
-    overflow: hidden;
-  }
-  
-  /* Main welcome text styled in gold with a border and shimmering effect */
-  .welcome-text {
-    font-size: 4rem;
-    color: #ffd700;
-    padding: 20px;
-    border: 4px solid #ffd700;
-    border-radius: 10px;
-    text-shadow: 0 0 10px #ffd700;
-    animation: shine 3s ease-in-out infinite;
-    margin-bottom: 40px;
-  }
-  
-  /* Keyframes for the shimmering effect on welcome text */
-  @keyframes shine {
-    0% {
-      text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
-    }
-    50% {
-      text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700;
-    }
-    100% {
-      text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
-    }
-  }
-  
-  /* Continue button styling */
-  .continue-btn {
-    font-size: 1.2rem;
-    padding: 10px 20px;
-    background-color: #ffd700;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    z-index: 2;
-  }
-  
-  .continue-btn:hover {
-    background-color: #e6c200;
-    transform: scale(1.05);
-  }
-  
-  /* Typewriter animation container positioned at the bottom */
-  .chat-animation {
-    position: absolute;
-    bottom: 100px;
-    width: 100%;
-    text-align: center;
-    z-index: 1;
-  }
-  
-  /* Typewriter effect styling */
-  .typewriter {
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 2px solid #ffd700;
-    letter-spacing: 2px;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.7);
-    width: 0;
-    animation: typing 3s steps(30, end) infinite, blink-caret 0.75s step-end infinite;
-  }
-  
-  /* Typing animation: expands the width then resets */
-  @keyframes typing {
-    0% {
-      width: 0;
-    }
-    40% {
-      width: 100%;
-    }
-    50% {
-      width: 100%;
-    }
-    100% {
-      width: 0;
-    }
-  }
-  
-  /* Blinking caret animation */
-  @keyframes blink-caret {
-    from, to { border-color: transparent; }
-    50% { border-color: #ffd700; }
-  }
-  
-  /* Footer text styling */
-  .footer {
-    position: absolute;
-    bottom: 10px;
-    font-size: 0.8rem;
-    color: #ccc;
-    text-align: center;
-    width: 100%;
-    z-index: 2;
-  }
-  
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000;
+  overflow: hidden;
+}
+
+/* Large welcome text with gold border and shimmer effect */
+.welcome-text {
+  font-size: 4rem;
+  color: #ffd700;
+  padding: 20px;
+  border: 4px solid #ffd700;
+  border-radius: 10px;
+  text-shadow: 0 0 10px #ffd700;
+  animation: shine 3s ease-in-out infinite;
+  margin-bottom: 40px;
+}
+
+@keyframes shine {
+  0% { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700; }
+  50% { text-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700; }
+  100% { text-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700; }
+}
+
+/* Continue button */
+.continue-btn {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  background-color: #ffd700;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  z-index: 2;
+}
+
+.continue-btn:hover {
+  background-color: #e6c200;
+  transform: scale(1.05);
+}
+
+/* Typewriter effect for chat animation */
+.chat-animation {
+  position: absolute;
+  bottom: 100px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #ffd700;
+  letter-spacing: 2px;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  width: 0;
+  animation: typing 3s steps(30, end) infinite, blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  0% { width: 0; }
+  40% { width: 100%; }
+  50% { width: 100%; }
+  100% { width: 0; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #ffd700; }
+}
+
+/* Footer text */
+.footer {
+  position: absolute;
+  bottom: 10px;
+  font-size: 0.8rem;
+  color: #ccc;
+  text-align: center;
+  width: 100%;
+  z-index: 2;
+}

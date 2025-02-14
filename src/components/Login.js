@@ -17,14 +17,8 @@ function Login() {
       const user = await apiService.loginUser(creds.username, creds.password);
       if (user) {
         localStorage.setItem('userId', user.id);
-        // Save the admin flag (assume role is stored as a string "ADMIN" or "USER")
         localStorage.setItem('isAdmin', user.role === 'ADMIN' ? "true" : "false");
-        // Redirect based on role
-        if (user.role === 'ADMIN') {
-          navigate('/admin');
-        } else {
-          navigate('/dashboard');
-        }
+        navigate('/chat');
       } else {
         setError("Invalid credentials");
       }
@@ -50,7 +44,7 @@ function Login() {
         <button type="submit">Login</button>
       </form>
       <p>
-        Don't have an account? <Link to="/register" style={{ color: '#4fc3f7' }}>Register here</Link>.
+        Don't have an account? <Link to="/register" style={{ color: '#7289da' }}>Register here</Link>.
       </p>
     </div>
   );

@@ -23,7 +23,7 @@ function Register() {
         email: form.email,
         password: form.password
       });
-      navigate('/');
+      navigate('/login');
     } catch (err) {
       console.error("Registration error:", err);
       setError("Registration failed");
@@ -54,7 +54,7 @@ function Register() {
         <button type="submit">Register</button>
       </form>
       <p>
-        Already have an account? <Link to="/" style={{ color: '#4fc3f7' }}>Login here</Link>.
+        Already have an account? <Link to="/login" style={{ color: '#7289da' }}>Login here</Link>.
       </p>
     </div>
   );

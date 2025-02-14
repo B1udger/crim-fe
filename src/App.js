@@ -4,9 +4,10 @@ import WelcomePage from './components/WelcomePage';
 import Login from './components/Login';
 import Register from './components/Register';
 import ChatApp from './ChatApp';
-import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
-import AdminDashboard from './pages/AdminDashboard'; // optional
+import CreateChannel from './pages/CreateChannel';
+import AddFriend from './pages/AddFriend';
+import AddMember from './pages/AddMember';
 
 function App() {
   return (
@@ -16,9 +17,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/chat" element={<ChatApp />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/create-channel" element={<CreateChannel />} />
+        <Route path="/add-friend" element={<AddFriend />} />
+        <Route path="/add-member/:channelId" element={<AddMember />} />
       </Routes>
     </Router>
   );
