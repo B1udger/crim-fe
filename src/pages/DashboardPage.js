@@ -1,90 +1,107 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AddFriend from '../components/AddFriend';
+// DashboardPage.js
+import React, { useState, useEffect } from 'react';
 import apiService from '../services/apiService';
+import { useNavigate } from 'react-router-dom';
 
 function DashboardPage() {
+  const [dashboard, setDashboard] = useState({ channels: [], friends: [] });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId');
-  const [channelName, setChannelName] = useState('');
-  const [newMemberId, setNewMemberId] = useState('');
-  const [channelId, setChannelId] = useState('');
 
-  const handleProfile = () => {
-    navigate('/profile');
-  };
+  // Fetch dashboard data on mount (channels and friends)
+  useEffect(() => {
+    if (userId) {
+      apiService.getDashboard(userId)
+        .then((data) => setDashboard(data))
+        .catch((err) => console.error("Error fetching dashboard", err));
+    }
+  }, [userId]);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/login');
-  };
-
-  // Create a new channel
-  const handleCreateChannel = async () => {
-    if (!channelName.trim()) return alert("Channel name cannot be empty!");
-    
-    try {
-      await apiService.createChannel(channelName, userId);
-      alert(`Channel "${channelName}" created successfully!`);
-      setChannelName('');
-    } catch (err) {
-      console.error("Error creating channel:", err);
-      alert("Failed to create channel.");
+  // Handle search input change to search for users
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    if (term.length > 1) {
+      apiService.searchUsers(term)
+        .then((users) => setSearchResults(users))
+        .catch((err) => console.error("Error searching users", err));
+    } else {
+      setSearchResults([]);
     }
   };
 
-  // Add a member to a channel
-  const handleAddMember = async () => {
-    if (!channelId || !newMemberId) return alert("Please enter channel ID and user ID!");
+  // Add a friend using the addFriend API endpoint
+  const handleAddFriend = (friendId) => {
+    apiService.addFriend(userId, friendId)
+      .then(() => {
+        alert("Friend added!");
+        // Optionally refresh the dashboard data after adding a friend
+        apiService.getDashboard(userId)
+          .then((data) => setDashboard(data))
+          .catch((err) => console.error("Error updating dashboard", err));
+      })
+      .catch((err) => console.error("Error adding friend", err));
+  };
 
-    try {
-      await apiService.addMember(channelId, newMemberId, userId);
-      alert("Member added successfully!");
-      setNewMemberId('');
-      setChannelId('');
-    } catch (err) {
-      console.error("Error adding member:", err);
-      alert("Failed to add member.");
-    }
+  // Navigate to a channel chat page (if needed)
+  const handleChannelClick = (channel) => {
+    // You can navigate to the chat page for the channel or open a modal, etc.
+    navigate('/chat', { state: { activeChat: channel } });
   };
 
   return (
     <div className="dashboard-page">
       <h1>Dashboard</h1>
-      <div className="dashboard-buttons">
-        <button onClick={handleProfile}>Profile</button>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
+      
+      <section className="dashboard-section">
+        <h2>Your Channels</h2>
+        {dashboard.channels.length > 0 ? (
+          <ul>
+            {dashboard.channels.map((channel) => (
+              <li key={channel.id} onClick={() => handleChannelClick(channel)}>
+                {channel.name}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No channels available.</p>
+        )}
+      </section>
 
-      {/* Add Friend Component */}
-      <h2>Add Friend</h2>
-      <AddFriend />
+      <section className="dashboard-section">
+        <h2>Your Friends</h2>
+        {dashboard.friends.length > 0 ? (
+          <ul>
+            {dashboard.friends.map((friend) => (
+              <li key={friend.id}>{friend.username}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>You have no friends added.</p>
+        )}
+      </section>
 
-      {/* Create Channel */}
-      <h2>Create Channel</h2>
-      <input 
-        type="text" 
-        placeholder="Enter channel name" 
-        value={channelName}
-        onChange={(e) => setChannelName(e.target.value)}
-      />
-      <button onClick={handleCreateChannel}>Create</button>
-
-      {/* Add Member to Channel */}
-      <h2>Add Member to Channel</h2>
-      <input 
-        type="text" 
-        placeholder="Channel ID" 
-        value={channelId}
-        onChange={(e) => setChannelId(e.target.value)}
-      />
-      <input 
-        type="text" 
-        placeholder="User ID" 
-        value={newMemberId}
-        onChange={(e) => setNewMemberId(e.target.value)}
-      />
-      <button onClick={handleAddMember}>Add</button>
+      <section className="search-section">
+        <h2>Search Users</h2>
+        <input 
+          type="text"
+          placeholder="Search for users..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        {searchResults.length > 0 && (
+          <ul>
+            {searchResults.map((user) => (
+              <li key={user.id}>
+                {user.username} 
+                <button onClick={() => handleAddFriend(user.id)}>Add Friend</button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   );
 }
